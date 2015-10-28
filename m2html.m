@@ -573,36 +573,51 @@ fclose(fid);
 %-------------------------------------------------------------------------------
 % Get list of files
 d = dir(options.template);
-d = {d(~[d.isdir]).name};
+% d = {d(~[d.isdir]).name};
+d = {d(:).name};
 % Copy files
 for i=1:length(d)
-	[p, n, ext] = fileparts(d{i});
-	if ~strcmp(ext,'.tpl') ... % do not copy .tpl files
-       & ~strcmp([n ext],'Thumbs.db') % do not copy this Windows generated file
-		if isempty(dir(fullfile(options.htmlDir,d{i})))
-			if options.verbose
-				fprintf('Copying template file %s...\n',d{i});
-			end
-			%- there is a bug with <copyfile> in Matlab 6.5 :
-			%   http://www.mathworks.com/support/solutions/data/1-1B5JY.html
-			%- and <copyfile> does not overwrite files even if newer...
-			[status, errmsg] = copyfile(fullfile(options.template,d{i}),...
-										options.htmlDir);
-			%- If you encounter this bug, please uncomment one of the following lines
-			% eval(['!cp -rf ' fullfile(options.template,d{i}) ' ' options.htmlDir]);
-			% eval(['!copy ' fullfile(options.template,d{i}) ' ' options.htmlDir]);
-			% status = 1;
-			if ~status
-				if ~isempty(errmsg)
-					error(errmsg)
-				else
-					warning(sprintf(['<copyfile> failed to do its job...\n' ...
-				'This is a known bug in Matlab 6.5 (R13).\n' ...
-				'See http://www.mathworks.com/support/solutions/data/1-1B5JY.html']));
-				end
-			end
-		end
-	end
+    [~, ~, ext] = fileparts(d{i});
+    if ismember(d{i}, {'.','..','Thumbs.db'})
+        % do not copy . or .. directories
+        % do not copy this Windows generated file
+        continue;
+    end
+    if strcmp(ext,'.tpl')
+        % do not copy .tpl files
+        continue;
+    end
+    if ~isempty(dir(fullfile(options.htmlDir,d{i})))
+        % Don't copy if the file already exists
+        continue;
+    end
+    if options.verbose
+        fprintf('Copying template file %s...\n',d{i});
+    end
+    sourcePth = fullfile(options.template,d{i});
+    destPth = options.htmlDir;
+    if isdir(sourcePth)
+        destPth = fullfile(destPth, d{i});
+    end
+    %- there is a bug with <copyfile> in Matlab 6.5 :
+    %   http://www.mathworks.com/support/solutions/data/1-1B5JY.html
+    %- and <copyfile> does not overwrite files even if newer...
+    [status, errmsg] = copyfile(sourcePth, destPth);
+    %- If you encounter this bug, please uncomment one of the following lines
+    % eval(['!cp -rf ' fullfile(options.template,d{i}) ' ' options.htmlDir]);
+    % eval(['!copy ' fullfile(options.template,d{i}) ' ' options.htmlDir]);
+    % status = 1;
+    if status
+        % No error message
+        continue;
+    end
+    if ~isempty(errmsg)
+        error(errmsg)
+    else
+        warning(sprintf(['<copyfile> failed to do its job...\n' ...
+            'This is a known bug in Matlab 6.5 (R13).\n' ...
+            'See http://www.mathworks.com/support/solutions/data/1-1B5JY.html']));
+    end
 end
 
 %-------------------------------------------------------------------------------
