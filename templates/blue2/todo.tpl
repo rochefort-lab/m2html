@@ -23,6 +23,5 @@
 	<!-- END row -->
 	</ul>
 <!-- END filelist -->
-<hr><address>Generated on {DATE} by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" title="Matlab Documentation in HTML">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>
