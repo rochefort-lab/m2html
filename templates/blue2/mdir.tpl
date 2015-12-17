@@ -20,15 +20,20 @@
 <h2>Matlab files in this directory:</h2>
 <table>
 <!-- BEGIN row-m -->
+
 <tr><td><img src="{MASTERPATH}html_img/matlabicon.gif" alt="" border="">&nbsp;<a href="{L_NAME}">{NAME}</a></td><td>{H1LINE} <!-- BEGIN mexfile --> <img src="{MASTERPATH}html_img/mex.png" alt="MEX" border="0"> <!-- END mexfile --> </td></tr>
+
 <!-- END row-m -->
+
 </table>
 
 <!-- BEGIN othermatlab -->
 <h2>Other Matlab-specific files in this directory:</h2>
 <ul style="list-style-image:url({MASTERPATH}html_img/matlabicon.gif)">
 <!-- BEGIN row-other -->
+
 <li>{OTHERFILE}</li>
+
 <!-- END row-other -->
 </ul>
 <!-- END othermatlab -->
@@ -37,7 +42,9 @@
 <h2>Subsequent directories:</h2>
 <ul style="list-style-image:url({MASTERPATH}html_img/matlabicon.gif)">
 <!-- BEGIN subdir -->
+
 <li>{SUBDIRECTORY}</li>
+
 <!-- END subdir -->
 </ul>
 <!-- END subfolder -->

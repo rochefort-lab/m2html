@@ -16,17 +16,23 @@
 <h2>Matlab Directories</h2>
 <ul style="list-style-image:url({MASTERPATH}html_img/matlabicon.gif)">
 <!-- BEGIN rowdir -->
+
 <li><a href="{L_DIR}">{DIR}</a></li>
+
 <!-- END rowdir -->
 </ul>
 <h2>Matlab Files found in these Directories</h2>
 <table width="100%">
 	<!-- BEGIN idrow -->
+
 	<tr>
 		<!-- BEGIN idcolumn -->
+
 		<td><a href="{L_IDNAME}" title="{T_IDNAME}">{IDNAME}</a></td>
+
 		<!-- END idcolumn -->
 	</tr>
+
 	<!-- END idrow -->
 </table>
 

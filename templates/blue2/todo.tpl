@@ -19,7 +19,9 @@
 <h2>{MFILE}:</h2>
 <ul>
 	<!-- BEGIN row -->
+
 	<li><a href="{L_NBLINE}">line {NBLINE}: </a> {COMMENT}</li>
+
 	<!-- END row -->
 	</ul>
 <!-- END filelist -->
