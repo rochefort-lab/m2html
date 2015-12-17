@@ -513,13 +513,14 @@ fid = openfile(curfile,'w');
 tpl = set(tpl,'var','DATE',[datestr(now,8) ' ' datestr(now,1) ' ' ...
 							datestr(now,13)]);
 tpl = set(tpl,'var','MASTERPATH', './');
-tpl = set(tpl,'var','DIRS', sprintf('%s ',mdir{:}));
+mdir_= cellfun(@standarddir,mdir,'UniformOutput',false);
+tpl = set(tpl,'var','DIRS', sprintf('%s ',mdir_{:}));
 
 %- Print list of unique directories
 for i=1:length(mdir)
 	tpl = set(tpl,'var','L_DIR',...
 			  fullurl(mdir{i},[options.indexFile options.extension]));
-	tpl = set(tpl,'var','DIR',mdir{i});
+	tpl = set(tpl,'var','DIR',standarddir(mdir{i}));
 	tpl = parse(tpl,'rowdirs','rowdir',1);
 end
 
@@ -534,7 +535,7 @@ for i=1:prod(size(ind))
 	if ind(i)
 		tpl = set(tpl,'var','L_IDNAME',...
 			fullurl(mdirs{ind(i)},[names{ind(i)} options.extension]));
-		tpl = set(tpl,'var','T_IDNAME',mdirs{ind(i)});
+		tpl = set(tpl,'var','T_IDNAME',standarddir(mdirs{ind(i)}));
 		tpl = set(tpl,'var','IDNAME',names{ind(i)});
 		tpl = parse(tpl,'idcolumns','idcolumn',1);
 	else
@@ -688,26 +689,26 @@ if options.helptocxml
 	for i=1:length(mdir)
 		fprintf(fid,['<tocitem target="%s" ',...
 			'image="$toolbox/matlab/icons/reficon.gif">%s\n'], ...
-			fullfile(mdir{i}, ...
-				[options.indexFile options.extension]),mdir{i});
+			standarddir(fullfile(mdir{i}, ...
+				[options.indexFile options.extension]),mdir{i}));
 		if options.graph
 			fprintf(fid,['\t<tocitem target="%s" ',...
 			'image="$toolbox/matlab/icons/simulinkicon.gif">%s</tocitem>\n'], ...
-				fullfile(mdir{i},...
-				[dotbase options.extension]),'Dependency Graph');
+				standarddir(fullfile(mdir{i},...
+				[dotbase options.extension]),'Dependency Graph'));
 		end
 		if options.todo
 			if ~isempty(intersect(find(strcmp(mdir{i},mdirs)),todo.mfile))
 				fprintf(fid,['\t<tocitem target="%s" ',...
 				'image="$toolbox/matlab/icons/demoicon.gif">%s</tocitem>\n'], ...
-					fullfile(mdir{i},...
-					['todo' options.extension]),'Todo list');
+					standarddir(fullfile(mdir{i},...
+					['todo' options.extension]),'Todo list'));
 			end
 		end
 		for j=1:length(mdirs)
 			if strcmp(mdirs{j},mdir{i})
-				curfile = fullfile(mdir{i},...
-					[names{j} options.extension]);
+				curfile = standarddir(fullfile(mdir{i},...
+					[names{j} options.extension]));
 				fprintf(fid,'\t<tocitem target="%s">%s</tocitem>\n', ...
 					curfile,names{j});
 			end
@@ -751,8 +752,8 @@ for i=1:length(mdir)
 
 	%- Set template fields
 	tpl = set(tpl,'var','INDEX',     [options.indexFile options.extension]);
-	tpl = set(tpl,'var','MASTERPATH',backtomaster(mdir{i}));
-	tpl = set(tpl,'var','MDIR',      mdir{i});
+	tpl = set(tpl,'var','MASTERPATH',standarddir(backtomaster(mdir{i})));
+	tpl = set(tpl,'var','MDIR',      standarddir(mdir{i}));
 	
 	%- Display Matlab m-files, their H1 line and their Mex status
 	tpl = set(tpl,'var','rows-m','');
@@ -795,7 +796,7 @@ for i=1:length(mdir)
 				sprintf(tpl_mdir_link,...
 				fullurl(d{j},[options.indexFile options.extension]),d{j}));
 		else
-			tpl = set(tpl,'var','SUBDIRECTORY',d{j});
+			tpl = set(tpl,'var','SUBDIRECTORY',standarddir(d{j}));
 		end
 		tpl = parse(tpl,'subdirs','subdir',1);
 	end
@@ -852,8 +853,8 @@ if options.todo
 			
 			%- Set template fields
 			tpl = set(tpl,'var','INDEX',[options.indexFile options.extension]);
-			tpl = set(tpl,'var','MASTERPATH', backtomaster(mdir{i}));
-			tpl = set(tpl,'var','MDIR',       mdir{i});
+			tpl = set(tpl,'var','MASTERPATH', standarddir(backtomaster(mdir{i})));
+			tpl = set(tpl,'var','MDIR',       standarddir(mdir{i}));
 			tpl = set(tpl,'var','filelists',  '');
 	
 			for k=1:length(mfilestodo)
@@ -941,8 +942,8 @@ if options.graph
 		fid = openfile(fullfile(options.htmlDir,mdir{i},...
 			[dotbase options.extension]),'w');
 		tpl = set(tpl,'var','INDEX',[options.indexFile options.extension]);
-		tpl = set(tpl,'var','MASTERPATH', backtomaster(mdir{i}));
-		tpl = set(tpl,'var','MDIR',       mdir{i});
+		tpl = set(tpl,'var','MASTERPATH', standarddir(backtomaster(mdir{i})));
+		tpl = set(tpl,'var','MDIR',       standarddir(mdir{i}));
 		tpl = set(tpl,'var','GRAPH_IMG',  [dotbase '.png']);
         try % if <dot> failed, no '.map' file has been created
 	    	fmap = openfile(fullfile(options.htmlDir,mdir{i},[dotbase '.map']),'r');
@@ -1026,8 +1027,8 @@ for i=1:length(mdir)
 			
 			%- Set some template fields
 			tpl = set(tpl,'var','INDEX', [options.indexFile options.extension]);
-			tpl = set(tpl,'var','MASTERPATH',       backtomaster(mdir{i}));
-			tpl = set(tpl,'var','MDIR',             mdirs{j});
+			tpl = set(tpl,'var','MASTERPATH',       standarddir(backtomaster(mdir{i})));
+			tpl = set(tpl,'var','MDIR',             standarddir(mdirs{j}));
 			tpl = set(tpl,'var','NAME',             names{j});
 			tpl = set(tpl,'var','H1LINE',           entity(h1line{j}));
 			tpl = set(tpl,'var','scriptfile',       '');
@@ -1411,6 +1412,12 @@ function f = fullurl(varargin)
 	%- Build full url from parts (using '/' and not filesep)
 	
 	f = strrep(fullfile(varargin{:}),'\','/');
+
+%===============================================================================
+function f = standarddir(str)
+	%- Standardize the file separator to be / instead of \
+    
+	f = strrep(str,'\','/');
 
 %===============================================================================
 function str = escapeblank(str)
