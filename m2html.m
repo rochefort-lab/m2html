@@ -1343,6 +1343,9 @@ function mfiles = getmfiles(mdirs, mfiles, recursive, ignoredDir)
 		end
 	end
 
+    % Sort the filenames alphabetically, so order is consistent
+    mfiles = sort(mfiles);
+
 %===============================================================================
 function calldot(dotexec, mdotfile, mapfile, pngfile, opt)
 	%- Draw a dependency graph in a PNG image using <dot> from GraphViz
