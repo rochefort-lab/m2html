@@ -3,6 +3,7 @@
 
  Copyright (C) 2003-2005 Guillaume Flandin <Guillaume@artefact.tk>
  http://www.artefact.tk/software/matlab/m2html/
+ Modified Dec 2015 Scott Lowe <scott.code.lowe@gmail.com>
 
  This toolbox is intended to provide automatic generation of M-files 
  documentation in HTML. It reads each M-file in a set of directories
