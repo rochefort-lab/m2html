@@ -12,6 +12,10 @@
 %
 % Templates files.
 %   templates/blue   - Default HTML template.
+%   templates/blue2  - Forked version of blue template, with images in
+%                      their own folder, without a generation date on
+%                      every HTML file, and with newlines between <tr>
+%                      and <li> elements for easier diffs.
 %   templates/frame  - Identical to <blue> but using frames.
 %   templates/brain  - Another frames-enabled template
 %
