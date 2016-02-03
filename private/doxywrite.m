@@ -52,7 +52,7 @@ idx2 = zeros(1,length(kw));
 while 1
 	s = kw{i}(1:2);
 	idx(double(s(2)+1), double(s(1)+1)) = ftell(fid);
-	while i <= length(kw) & strmatch(s, kw{i})
+	while i <= length(kw) && strmatch(s, kw{i})
 		writeString(fid,kw{i});
 		idx2(i) = ftell(fid);
 		writeInt(fid,0);

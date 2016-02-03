@@ -943,7 +943,7 @@ function doSetIndex(fig,evd,h)
 function doSetExtension(fig,evd,h)
 	opt = getappdata(h,'options');
 	e = get(fig,'String');
-	if ~isempty(e) & e(1) ~= '.'
+	if ~isempty(e) && e(1) ~= '.'
 		e = ['.' e];
 	end
 	opt.extension = e;
@@ -1018,7 +1018,7 @@ function doSetLoadMat(fig,evd,h)
 function doSetTabs(fig,evd,h)
 	opt = getappdata(h,'options');
 	t = str2num(get(fig,'String'));
-	if t >= 0 & length(t) == 1 
+	if t >= 0 && length(t) == 1 
 		opt.tabs = t; 
 	else
 		set(fig,'String',num2str(opt.tabs));
