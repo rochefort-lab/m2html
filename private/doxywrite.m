@@ -32,7 +32,16 @@ function doxywrite(filename, kw, statinfo, docinfo)
 
 %  See <http://www.doxygen.org/> for more details.
 
-error(nargchk(4,4,nargin));
+%improvement for dealing with the obsolete nargchk function (removed in Matlab R2016c or R2017 and replaced by narginchk)
+useNarginchk=false;
+if exist('narginchk','builtin')
+	useNarginchk=true;
+end
+if useNarginchk
+	narginchk(4,4);
+else
+	error(nargchk(4,4,nargin));
+end
 
 %- Open the search index file
 [fid, errmsg] = fopen(filename,'w','ieee-be');

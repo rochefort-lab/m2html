@@ -31,7 +31,17 @@ function [statlist, docinfo] = doxyread(filename)
 
 %  See <http://www.doxygen.org/> for more details.
 
-error(nargchk(0,1,nargin));
+%improvement for dealing with the obsolete nargchk function (removed in Matlab R2016c or R2017 and replaced by narginchk)
+useNarginchk=false;
+if exist('narginchk','builtin')
+	useNarginchk=true;
+end
+if useNarginchk
+	narginchk(0,1);
+else
+	error(nargchk(0,1,nargin));
+end
+
 if nargin == 0,
 	filename = 'search.idx';
 end

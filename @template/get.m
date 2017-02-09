@@ -7,11 +7,24 @@ function varargout = get(tpl,action,varargin)
 %  Copyright (C) 2003 Guillaume Flandin <Guillaume@artefact.tk>
 %  $Revision: 1.0 $Date: 2003/05/05 22:19:51 $
 
-error(nargchk(2,3,nargin));
+%improvement for dealing with the obsolete nargchk function (removed in Matlab R2016c or R2017 and replaced by narginchk)
+useNarginchk=false;
+if exist('narginchk','builtin')
+	useNarginchk=true;
+end
+if useNarginchk
+	narginchk(2,3);
+else
+	error(nargchk(2,3,nargin));
+end
 
 switch lower(action)
 	case 'var'
-		error(nargchk(2,3,nargin));
+		if useNarginchk
+			narginchk(2,3);
+		else
+			error(nargchk(2,3,nargin));
+		end
 		if nargin == 2
 			varargout{1} = tpl.varvals;
 		elseif iscellstr(varargin{1})
@@ -31,7 +44,11 @@ switch lower(action)
 			varargout{1} = '';
 		end
 	case 'undefined'
-		error(nargchk(3,3,nargin));
+		if useNarginchk
+			narginchk(3,3);
+		else
+			error(nargchk(3,3,nargin));
+		end
 		tpl = loadtpl(tpl,varargin{1});
 		str = get(tpl,'var',varargin{1});
 		varargout{1} = {};

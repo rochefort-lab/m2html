@@ -13,7 +13,17 @@ function [s, freq] = searchindex(mfile, szmin)
 %  Copyright (C) 2003 Guillaume Flandin <Guillaume@artefact.tk>
 %  $Revision: 1.0 $Date: 2003/04/10 18:32:48 $
 
-error(nargchk(1,2,nargin));
+%improvement for dealing with the obsolete nargchk function (removed in Matlab R2016c or R2017 and replaced by narginchk)
+useNarginchk=false;
+if exist('narginchk','builtin')
+	useNarginchk=true;
+end
+if useNarginchk
+	narginchk(1,2);
+else
+	error(nargchk(1,2,nargin));
+end
+
 if nargin == 1, szmin = 2; end
 
 %- Delimiters used in strtok

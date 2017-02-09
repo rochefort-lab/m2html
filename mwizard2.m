@@ -31,7 +31,16 @@ function mwizard(file)
 %  guarantee is made whether and when they will be implemented.
 %  Send requests to Guillaume@artefact.tk
 
-error(nargchk(0,1,nargin));
+%improvement for dealing with the obsolete nargchk function (removed in Matlab R2016c or R2017 and replaced by narginchk)
+useNarginchk=false;
+if exist('narginchk','builtin')
+	useNarginchk=true;
+end
+if useNarginchk
+	narginchk(0,1);
+else
+	error(nargchk(0,1,nargin));
+end
 
 disp('This is a beta version of mwizard.');
 disp('Please use the online version m2html instead.');
