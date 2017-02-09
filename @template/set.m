@@ -10,25 +10,46 @@ function tpl = set(tpl,action,varargin)
 %  Copyright (C) 2003 Guillaume Flandin <Guillaume@artefact.tk>
 %  $Revision: 1.0 $Date: 2003/05/05 22:19:51 $
 
-error(nargchk(3,5,nargin));
+%improvement for dealing with the obsolete nargchk function (removed in Matlab R2016c or R2017 and replaced by narginchk)
+useNarginchk=false;
+if exist('narginchk','builtin')
+	useNarginchk=true;
+end
+if useNarginchk
+	narginchk(3,5);
+else
+	error(nargchk(3,5,nargin));
+end
 
 switch lower(action)
 	case 'root'
-		error(nargchk(3,3,nargin));
+		if useNarginchk
+			narginchk(3,3);
+		else
+			error(nargchk(3,3,nargin));
+		end
 		if exist(varargin{1},'dir')
 			tpl.root = varargin{1};
 		else
 			error('[Template] No such directory.');
 		end
 	case 'unknowns'
-		error(nargchk(3,3,nargin));
+		if useNarginchk
+			narginchk(3,3);
+		else
+			error(nargchk(3,3,nargin));
+		end
 		if ismember(varargin{1},{'remove' 'comment' 'keep'})
 			tpl.unknowns = varargin{1};
 		else
 			error('[Template] Unknowns: ''remove'', ''comment'' or ''keep''.');
 		end
 	case 'file'
-		error(nargchk(4,4,nargin));
+		if useNarginchk
+			narginchk(4,4);
+		else
+			error(nargchk(4,4,nargin));
+		end
 		if iscellstr(varargin{1})
 			for i=1:length(varargin{1})
 				ind = find(ismember(tpl.handles,varargin{1}{i}));
@@ -53,7 +74,11 @@ switch lower(action)
 			error('[Template] Badly formed handles.');
 		end
 	case 'block'
-		error(nargchk(4,5,nargin));
+		if useNarginchk
+			narginchk(4,5);
+		else
+			error(nargchk(4,5,nargin));
+		end
 		tpl = loadtpl(tpl,varargin{1});
 		if nargin == 4
 			name = varargin{2};
@@ -85,7 +110,11 @@ switch lower(action)
 		tpl = set(tpl,'var',varargin{2},blk);
 		tpl = set(tpl,'var',varargin{1},str);
 	case 'var'
-		error(nargchk(3,4,nargin));
+		if useNarginchk
+			narginchk(3,4);
+		else
+			error(nargchk(3,4,nargin));
+		end
 		if iscellstr(varargin{1})
 			for i=1:length(varargin{1})
 				ind = find(ismember(tpl.varkeys,varargin{1}{i}));

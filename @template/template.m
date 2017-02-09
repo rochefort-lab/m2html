@@ -22,7 +22,16 @@ function tpl = template(root,unknowns)
 %  Copyright (C) 2003 Guillaume Flandin <Guillaume@artefact.tk>
 %  $Revision: 1.0 $Date: 2003/05/05 22:19:51 $
 
-error(nargchk(0,2,nargin));
+%improvement for dealing with the obsolete nargchk function (removed in Matlab R2016c or R2017 and replaced by narginchk)
+useNarginchk=false;
+if exist('narginchk','builtin')
+	useNarginchk=true;
+end
+if useNarginchk
+	narginchk(0,2);
+else
+	error(nargchk(0,2,nargin));
+end
 
 switch nargin
 	case 0

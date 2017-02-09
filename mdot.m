@@ -18,7 +18,16 @@ function mdot(mmat, dotfile,f)
 %  Copyright (C) 2004 Guillaume Flandin <Guillaume@artefact.tk>
 %  $Revision: 1.1 $Date: 2004/05/05 17:14:09 $
 
-error(nargchk(2,3,nargin));
+%improvement for dealing with the obsolete nargchk function (removed in Matlab R2016c or R2017 and replaced by narginchk)
+useNarginchk=false;
+if exist('narginchk','builtin')
+	useNarginchk=true;
+end
+if useNarginchk
+	narginchk(2,3);
+else
+	error(nargchk(2,3,nargin));
+end
 
 if ischar(mmat)
 	load(mmat);

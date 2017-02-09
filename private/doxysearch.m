@@ -29,7 +29,17 @@ function result = doxysearch(query,filename)
 
 %  See <http://www.doxygen.org/> for more details.
 
-error(nargchk(1,2,nargin));
+%improvement for dealing with the obsolete nargchk function (removed in Matlab R2016c or R2017 and replaced by narginchk)
+useNarginchk=false;
+if exist('narginchk','builtin')
+	useNarginchk=true;
+end
+if useNarginchk
+	narginchk(1,2);
+else
+	error(nargchk(1,2,nargin));
+end
+
 if nargin == 1,
 	filename = 'search.idx';
 end
